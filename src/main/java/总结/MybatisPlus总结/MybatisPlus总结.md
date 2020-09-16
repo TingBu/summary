@@ -28,8 +28,10 @@
                             .eq(VideoEntity::getStatus, STATUS_NORMAL)
                             .eq(VideoEntity::getAuditStatus, AUDIT_STATUS_PASS);
                     return page(page.getPage(), wrapper);
-#### 2.条件查询
+#### 2.Wrapper内置条件构造器
 
+#### 3.条件查询
+``````
 MyBatisPlus通常会封装三个实体类：
    DTO层的返回给前端的最终封装结果；
    Entity层的与数据库相对应的实体对象；
@@ -354,5 +356,3 @@ MyBatisPlus通常会封装三个实体类：
             return page(page);
         }
     】
-#### 3.Wrapper内置条件构造器
-   
