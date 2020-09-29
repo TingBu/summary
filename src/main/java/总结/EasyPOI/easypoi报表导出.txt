@@ -1,0 +1,13 @@
+一：easyPOI报表导出
+@Target()
+@Excel(value="")
+  ExcelExportUtil.exportExcel(exportParams ,param2, param3)
+参数1:导出配置对象  参数2:导出类型  参数3:导出数据集合
+exportParams--> new ExportParams(title: ,sheetName: )
+
+2.
+    // 导出excel
+    Workbook workbook =  ExcelExportUtil.exportExcel(exportParams ,param2, param3)
+    // 写入指定位置
+    workbook.write(new FileOutputStream(" "));
+二：easyPOI报表导入
