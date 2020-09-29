@@ -1,0 +1,52 @@
+1.按科目查询当天的预约，考试，通过人数
+select
+    a.subjectName,
+    b.count appointment,
+    c.count examination,
+    d.count adopt
+from
+(select IF(subject = 1 ,'科目一',IF(subject = 2,'科目二',IF(subject = 3,'科目三',IF(subject = 4,'科目四','无法识别')))) `subjectName`,`subject` FROM tra_exam_record GROUP BY `subject`) a
+LEFT JOIN
+(select count(*) count, SUBJECT from tra_exam_record where status in (1,2) AND TO_DAYS(appointment_date) = TO_DAYS('2020-06-16')  GROUP BY `subject`) b on b.`SUBJECT` = a.`subject`
+LEFT JOIN
+(select count(*) count, SUBJECT from tra_exam_record where status = 2 AND TO_DAYS(exam_date) = TO_DAYS('2020-07-30') GROUP BY `subject`) c on c.`SUBJECT` = a.`subject`
+LEFT JOIN
+(select count(*) count, SUBJECT from tra_exam_record where is_pass=1  GROUP BY `subject`) d on d.`SUBJECT` = a.`subject`
+
+2.
+SELECT
+	DATE_FORMAT( into_account_time,'%Y-%m-%d' ) AS date,
+	money
+FROM
+	fin_cash_flow
+WHERE
+	DATE_FORMAT( into_account_time, '%Y%m' ) = DATE_FORMAT( NOW( ), '%Y%m' )
+	AND DAY( into_account_time ) = 4
+	AND school_id = 1
+	AND delete_flag = 0
+
+3.
+SELECT
+   *
+FROM(
+   (SELECT DATE_FORMAT(exam_date,'%Y-%m-%d')as date, count(1) as examNumbers FROM tra_exam_record WHERE DATE_FORMAT( exam_date, '%Y%m' ) = DATE_FORMAT( NOW() , '%Y%m' ) AND DAY(exam_date) = 4 AND `status` = 2 AND school_id = 1)a,
+   (SELECT count(1) as passExamNumbers FROM tra_exam_record WHERE DATE_FORMAT( exam_date, '%Y%m' ) = DATE_FORMAT( NOW() , '%Y%m' ) AND DAY(exam_date) = 4 AND is_pass = 0 and  school_id = 1)b
+)
+
+4.
+SELECT * FROM tra_exam_record WHERE DATE_FORMAT( exam_date, '%Y%m' ) = DATE_FORMAT( NOW() , '%Y%m' ) AND DAY(exam_date) = 9
+
+5.
+select
+    a.subjectName,
+    b.count appointment,
+    c.count examination,
+    d.count adopt
+from
+(select IF(subject = 1 ,'科目一',IF(subject = 2,'科目二',IF(subject = 3,'科目三',IF(subject = 4,'科目四','无法识别')))) `subjectName`,`subject` FROM tra_exam_record GROUP BY `subject`) a
+LEFT JOIN
+(select count(*) count, SUBJECT from tra_exam_record where status in (1,2) and school_id GROUP BY `subject`) b on b.`SUBJECT` = a.`subject`
+LEFT JOIN
+(select count(*) count, SUBJECT from tra_exam_record where status = 2 GROUP BY `subject`) c on c.`SUBJECT` = a.`subject`
+LEFT JOIN
+(select count(*) count, SUBJECT from tra_exam_record where is_pass=1 GROUP BY `subject`) d on d.`SUBJECT` = a.`subject`
